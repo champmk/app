@@ -117,4 +117,3 @@ export type WorkoutSession = WorkoutWeek['sessions'][number];
 export type SessionLift = WorkoutSession['mainLifts'][number];
 export type AccessoryLift = WorkoutSession['accessoryWork'][number];
 export type ConditioningBlock = WorkoutSession['conditioning'][number];
-```}
