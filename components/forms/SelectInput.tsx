@@ -66,7 +66,9 @@ export function SelectInput<TFieldValues extends FieldValues>(props: SelectInput
                   <List.Item
                     title="Select an option"
                     right={(props) => (
-                      <List.Icon {...props} icon="close" onPress={() => setModalVisible(false)} />
+                      <TouchableOpacity onPress={() => setModalVisible(false)}>
+                        <List.Icon {...props} icon="close" />
+                      </TouchableOpacity>
                     )}
                   />
                   <Divider />

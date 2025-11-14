@@ -36,7 +36,7 @@ export const WorkoutPlanCard = React.memo(function WorkoutPlanCard({ plan, onPre
               {request.trainingFocus} • {request.experienceLevel}
             </Text>
             <Text variant="bodySmall" style={styles.metaText}>
-              {planDetails.weeks.length} weeks • {request.sessionsPerWeek}x/week
+              {planDetails.weeks.length} weeks • {request.trainingFrequency}x/week
             </Text>
           </View>
         </Card.Content>
