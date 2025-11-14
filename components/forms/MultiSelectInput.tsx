@@ -64,7 +64,9 @@ export function MultiSelectInput<TFieldValues extends FieldValues>(props: MultiS
                     <List.Item
                       title="Select equipment"
                       right={(props) => (
-                        <List.Icon {...props} icon="close" onPress={() => setModalVisible(false)} />
+                        <TouchableOpacity onPress={() => setModalVisible(false)}>
+                          <List.Icon {...props} icon="close" />
+                        </TouchableOpacity>
                       )}
                     />
                     <Divider />

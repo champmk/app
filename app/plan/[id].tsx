@@ -119,16 +119,17 @@ async function generateExcelFile(plan: WorkoutPlan): Promise<string> {
   const sessions: Array<Record<string, string | number>> = [];
   plan.weeks.forEach((week) => {
     week.sessions.forEach((session) => {
-      session.lifts.forEach((lift) => {
+      session.mainLifts.forEach((lift) => {
         sessions.push({
-          Week: week.weekNumber,
-          Session: session.sessionName,
-          Exercise: lift.exercise,
+          Week: week.week,
+          Day: session.day,
+          Emphasis: session.emphasis,
+          Exercise: lift.name,
           Sets: lift.sets,
-          Reps: lift.reps,
+          Reps: typeof lift.reps === 'number' ? lift.reps : lift.reps,
           Intensity: lift.intensity ?? '',
           Tempo: lift.tempo ?? '',
-          Rest: lift.rest ?? '',
+          Rest: typeof lift.rest === 'number' ? lift.rest : lift.rest,
           Notes: lift.notes ?? '',
         });
       });
@@ -140,17 +141,12 @@ async function generateExcelFile(plan: WorkoutPlan): Promise<string> {
 
   const wbout = XLSX.write(workbook, { type: 'base64', bookType: 'xlsx' });
   const safeName = plan.programName.replace(/[^a-z0-9]/gi, '_').toLowerCase();
-  const fileUri = `${FileSystem.cacheDirectory ?? FileSystem.documentDirectory}plan-${safeName}.xlsx`;
+  const cacheDir = FileSystem.Paths.cache;
+  const file = new FileSystem.File(cacheDir, `plan-${safeName}.xlsx`);
 
-  if (!fileUri) {
-    throw new Error('Unable to determine file storage location');
-  }
+  await file.write(wbout, { encoding: 'base64' });
 
-  await FileSystem.writeAsStringAsync(fileUri, wbout, {
-    encoding: FileSystem.EncodingType.Base64,
-  });
-
-  return fileUri;
+  return file.uri;
 }
 
 const styles = StyleSheet.create({
